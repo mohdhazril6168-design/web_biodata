@@ -1,51 +1,57 @@
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+html,
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+    height: 100%;
 }
 
-/* HIDE CHECKBOX */
+body {
+    font-family: Arial, sans-serif;
+    background: #1e1e1e;
+    color: #fff;
+}
+
+#home-page,
+#about-page,
+#kontak-page,
 #menu-toggle {
     display: none;
 }
 
-/* TOGGLE BUTTON */
 .toggle-btn {
     position: fixed;
-    top: 0px;
+    top: 15px;
     left: 15px;
+    padding: 10px 14px;
     font-size: 24px;
     background: #1abc9c;
-    color: white;
-    padding: 10px 15px;
+    color: #fff;
+    border-radius: 8px;
     cursor: pointer;
     z-index: 1001;
-    border-radius: 5px;
-    border: none;
-    transition: 0.3s;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .toggle-btn:hover {
     background: #16a085;
-    transform: scale(1.1);
+    transform: translateY(-2px);
 }
 
-/* HEADER MENU */
 .header-menu {
     position: fixed;
     top: 0;
     left: -100%;
     width: 100%;
-    background: #2c3e50;
-    padding: 10px;
+    background: #698db1;
+    padding: 14px 16px;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    gap: 10px;
     z-index: 1000;
     transition: left 0.4s ease;
 }
@@ -54,86 +60,108 @@ body {
     left: 0;
 }
 
-.header-menu a {
-    color: white;
-    padding: 10px 20px;
-    text-decoration: none;
-    margin: 0 10px;
-    background: #34495e;
-    border-radius: 5px;
-    transition: 0.3s;
+.header-menu label {
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    background: #2a4661;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.header-menu a:hover {
+.header-menu label:hover {
     background: #1abc9c;
-    transform: scale(1.05);
+    transform: translateY(-2px);
 }
 
-/* CONTENT */
+#home-page:checked ~ .header-menu label[for="home-page"],
+#about-page:checked ~ .header-menu label[for="about-page"],
+#kontak-page:checked ~ .header-menu label[for="kontak-page"] {
+    background: #16a085;
+}
+
 .content {
-    margin-left: 0;
-    margin-top: 60px;
-    padding: 20px;
-    transition: 0.4s;
-    min-height: 100vh;
     position: relative;
+    min-height: 100vh;
+}
+
+.page {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    min-height: 100vh;
+    padding: 120px 40px 40px;
+    overflow: auto;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    animation: backgroundFade 0.8s ease forwards;
 }
 
-/* OVERLAY FOR CONTENT */
-.content::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 0;
-}
-
-/* CONTENT FULL WIDTH */
-#menu-toggle:checked ~ .content {
-    margin-left: 0;
-}
-
-/* CONTENT FULL WIDTH */
-#menu-toggle:checked ~ .content {
-    margin-left: 0;
-}
-
-.content * {
-    position: relative;
-    z-index: 1;
-}
-
-/* PAGE */
-.page {
-    width: 100%;
-    min-height: calc(100vh - 60px);
-    padding: 30px;
-    color: white;
+.page::before {
     display: none;
 }
 
-.page.active {
-    display: block;
+#home-page:checked ~ .content #home,
+#about-page:checked ~ .content #about,
+#kontak-page:checked ~ .content #kontak {
+    opacity: 1;
+    visibility: visible;
+}
+
+@keyframes backgroundFade {
+    from {
+        opacity: 0;
+        background-position: center 20px;
+    }
+    to {
+        opacity: 1;
+        background-position: center;
+    }
 }
 
 .page h1 {
-    text-align: center;
-    letter-spacing: 2px;
-    text-transform: uppercase;
     margin-bottom: 20px;
-    font-size: 32px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 34px;
+    text-shadow: 0 2px 12px #000;
 }
 
-.page p, .page ul {
+.page h2 {
+    margin-top: 28px;
+    font-size: 24px;
+}
+
+.page p,
+.page ul {
     font-size: 16px;
     line-height: 1.8;
+    text-shadow: 0 1px 4px #000;
+}
+
+.intro {
+    max-width: 680px;
+    margin-bottom: 24px;
+}
+
+.about-card li {
+    margin: 12px 0;
+    font-size: 16px;
+    position: relative;
+}
+
+.about-card li::before {
+    content: "▹";
+    color: #1abc9c;
+    font-weight: bold;
+    position: absolute;
+    left: -20px;
 }
 
 .page ul {
@@ -142,99 +170,88 @@ body {
 
 .page li {
     margin: 10px 0;
+    transition: transform 0.3s ease, color 0.3s ease;
 }
 
-/* TABLE */
+.page li:hover {
+    color: #1abc9c;
+    transform: translateX(6px);
+}
+
 .tabelku {
-    width: 80%;
-    margin: 20px auto;
+    width: 100%;
+    max-width: 760px;
+    margin: 22px auto;
     border-collapse: collapse;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(5px);
-    border-radius: 10px;
-    overflow: hidden;
 }
 
-.tabelku th, .tabelku td {
-    border: 1px solid white;
-    padding: 12px;
+.tabelku th,
+.tabelku td {
+    padding: 14px 18px;
     text-align: center;
+    border-bottom: 1px solid #555;
 }
 
 .tabelku th {
-    background: rgba(0,0,0,0.7);
-    font-weight: bold;
+    background: #1abc9c;
+    color: #fff;
+    font-weight: 700;
+}
+
+.tabelku tr:last-child td {
+    border-bottom: none;
 }
 
 .tabelku tr {
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .tabelku tr:hover {
-    transform: scale(1.02);
-    background: rgba(255,255,255,0.2);
+    transform: translateY(-2px);
+    background: #2c2c2c;
 }
 
-/* RESPONSIVE */
-@media (max-width: 768px) {
-    .header-menu {
-        justify-content: flex-start;
-        padding: 5px;
-    }
-
-    .header-menu a {
-        padding: 8px 15px;
-        margin: 5px;
-        font-size: 14px;
-    }
-
-    .content {
-        margin-top: 80px;
-        padding: 15px;
-    }
-}
-}
-
-.page h1 {
-    text-align: center;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-    font-size: 32px;
-}
-
-.page p, .page ul {
-    font-size: 16px;
-    line-height: 1.8;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
-}
-
-.page ul {
-    margin-left: 30px;
-}
-
-.page li {
-    margin: 10px 0;
-}
-
-/* Background tiap menu */
 #home {
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                url('foto1.jpeg') center/cover no-repeat;
+    background: url('foto1.jpeg') center/cover no-repeat;
 }
 
-#hobby {
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                url('foto2.jpeg') center/cover no-repeat;
-}
-
-#pendidikan {
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                url('foto3.jpeg') center/cover no-repeat;
+#about {
+    background: url('foto2.jpeg') center/cover no-repeat;
 }
 
 #kontak {
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
-                url('foto4.jpeg') center/cover no-repeat;
+    background: url('foto4.jpeg') center/cover no-repeat;
+}
+
+@media (max-width: 768px) {
+    .header-menu {
+        justify-content: flex-start;
+        padding: 10px;
+    }
+
+    .header-menu label {
+        flex: 1 1 100%;
+        margin: 5px 0;
+        text-align: center;
+    }
+
+    .page {
+        padding: 140px 20px 20px;
+    }
+
+    .tabelku {
+        width: 100%;
+    }
+
+    .about-container {
+        gap: 20px;
+    }
+
+    .about-card {
+        padding: 20px;
+    }
+
+    .about-card h2 {
+        font-size: 24px;
+    }
 }
